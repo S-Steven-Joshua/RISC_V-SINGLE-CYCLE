@@ -43,3 +43,49 @@ The design consists of two major blocks:
 
 ---
 ## Linting Output 
+<img width="1920" height="1019" alt="Image" src="https://github.com/user-attachments/assets/08b8d728-1540-4563-b444-a1d0622e8b33" />
+
+---
+## Verification
+
+The design was verified using a SystemVerilog testbench that performs end-to-end validation of the serializer, UART transmitter, UART receiver, and deserializer.
+
+### Verification Objectives
+
+- Verify correct serialization of 32-bit input data into four 8-bit UART packets.
+- Verify correct UART transmission and reception.
+- Verify byte ordering throughout the transmission process.
+- Verify reconstruction of the original 32-bit data at the receiver.
+- Verify proper operation of control signals such as `master_busy` and `master_write`.
+
+---
+## Applications
+
+- FPGA-to-FPGA Communication
+- SoC Peripheral Interfaces
+- Embedded System Communication
+- Debug and Monitoring Interfaces
+- Processor-to-UART Bridges
+- Low-Pin-Count Data Transfer Systems
+- Serial Communication Between Digital Systems
+
+---
+
+## Future Improvements
+
+- Configurable Baud Rate Generator
+- UART Parity Support
+- FIFO Buffers for TX and RX
+- Error Detection and Handling
+- Interrupt-Based Communication
+- Variable-Length Packet Support
+- AXI/APB Interface Integration
+- Flow Control Support (RTS/CTS)
+
+---
+
+## Author
+
+**Steven Joshua**
+
+Electronics and VLSI Student
