@@ -29,3 +29,34 @@ The design consists of:
 - **NOTE:HERE BACK TO BACK TRANSACTION IS AVOIDED. WE CAN CHANGE IT IF WE WANT IT**
 ---
 ## Output 
+<img width="1920" height="1020" alt="Image" src="https://github.com/user-attachments/assets/6dddd39f-f542-4050-a003-4d2201b280ff" />
+
+<img width="1920" height="1015" alt="Image" src="https://github.com/user-attachments/assets/5bfa124a-3862-46d7-bd79-0b1dba217ed6" />
+
+---
+### State Description
+
+| State | Description |
+|---------|------------|
+| IDLE | Waits for a transaction request |
+| SETUP | Drives APB control signals |
+| ACCESS | Waits for slave response (`PREADY`) |
+
+---
+
+## Signals
+
+### APB Master Signals
+
+| Signal | Direction | Description |
+|----------|-----------|-------------|
+| PCLK | Input | APB clock |
+| PRESETn | Input | Active-low reset |
+| PADDR | Input | Address bus |
+| PWDATA | Input | Write data bus |
+| PWRITE | Input | Write control |
+| PSEL | Output | Peripheral select |
+| PENABLE | Output | Access phase indicator |
+| PREADY | Input | Slave ready signal |
+
+---
