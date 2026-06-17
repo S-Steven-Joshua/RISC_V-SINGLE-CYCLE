@@ -25,15 +25,15 @@ module normal #(parameter N=4)(
     input logic rst,
     input logic write,
     input logic [N-1:0] data_in,
-    input logic [3:0] count,
+    input logic [7:0] count,
     output logic wave,
     output logic busy
     );
     
     logic [N-1:0] mem;
     logic [N-1:0] counter;
-    logic [3:0] mem_1;
-    logic [3:0] counter_1;
+    logic [7:0] mem_1;
+    logic [7:0] counter_1;
     logic write_pending;
     typedef enum logic [1:0] {idle,counting,pulse} state_t;
     state_t state;

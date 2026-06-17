@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps 
+`timescale 1ns / 1ps  
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -25,14 +25,14 @@ module normal_back #(parameter N=4)(
     input logic rst,
     input logic write,
     input logic [N-1:0] data_in,
-    input logic [3:0] count,
+    input logic [7:0] count,
     output logic wave,
     output logic busy
     );
     logic [N-1:0] mem;
-    logic [3:0] mem_1;
+    logic [7:0] mem_1;
     logic [N-1:0] counter;
-    logic [3:0] counter_1;
+    logic [7:0] counter_1;
     
     logic write_pending;
     typedef enum logic [1:0] {idle,counting,pulse} state_t;
@@ -48,6 +48,8 @@ module normal_back #(parameter N=4)(
             counter_1<='0;
             busy<=1'b0;
             wave<=1'b0;
+            state<=idle;
+            write_pending<=1'b0;
             end
         else
             begin
