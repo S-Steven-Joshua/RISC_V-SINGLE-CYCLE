@@ -25,7 +25,7 @@ module normal_back_tb;
     logic rst;
     logic write;
     logic [3:0] data_in;
-    logic [3:0] count;
+    logic [7:0] count;
     logic wave;
     logic busy;
     
@@ -58,7 +58,7 @@ module normal_back_tb;
     @(posedge clk);
     write=1'b1;
     data_in=4'b1100;
-    count=4'b0100;
+    count=8'b0000_0100;
     @(posedge clk);
     write=0;
     #200;
