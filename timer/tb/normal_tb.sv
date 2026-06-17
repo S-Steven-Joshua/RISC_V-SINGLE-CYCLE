@@ -27,7 +27,7 @@ module normal_tb;
     logic [3:0] data_in;
     logic [3:0] count;
     logic wave;
-    logic pready_p;
+    logic busy;
     
     normal #(.N(4)) normal1(
         .clk(clk),
@@ -36,7 +36,7 @@ module normal_tb;
         .data_in(data_in),
         .count(count),
         .wave(wave),
-        .pready_p(pready)
+        .busy(busy)
     );
     initial begin
     clk=0;
@@ -62,12 +62,12 @@ module normal_tb;
     write=0;
     #200;
     
-    @(posedge clk);
-    write=1;
-    data_in=4'b0000;
-    @(posedge clk);
-    write=0;
-    #200;
+//    @(posedge clk);
+//    write=1;
+//    data_in=4'b0000;
+//    @(posedge clk);
+//    write=0;
+//    #200;
     
 //    @(posedge clk);
 //    data_in=8'b1111;
