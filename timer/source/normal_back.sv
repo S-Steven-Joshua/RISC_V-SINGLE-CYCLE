@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ps 
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -27,15 +27,14 @@ module normal_back #(parameter N=4)(
     input logic [N-1:0] data_in,
     input logic [3:0] count,
     output logic wave,
-    output logic busy
+    output logic pready_p
     );
     logic [N-1:0] mem;
     logic [3:0] mem_1;
     logic [N-1:0] counter;
     logic [3:0] counter_1;
-//    logic enable;
-//    assign enable=(data_in!='0);
-        logic write_pending;
+    assign pready_p=1'b1;
+    logic write_pending;
     typedef enum logic [1:0] {idle,counting,pulse} state_t;
     state_t state;
     
@@ -47,7 +46,7 @@ module normal_back #(parameter N=4)(
             mem_1<='0;
             counter<='0;
             counter_1<='0;
-            busy<=1'b0;
+            //busy<=1'b0;
             wave<=1'b0;
             end
         else
@@ -69,18 +68,18 @@ module normal_back #(parameter N=4)(
                             begin
                             counter<=mem;
                             counter_1<='0;
-                            busy<=1'b1;
+                            //busy<=1'b1;
                             write_pending<=1'b0;
                             state<=counting;
                             end
                         else
                             begin
-                            busy<=1'b0;
+                            //busy<=1'b0;
                             end
                     end
                 counting:
                     begin
-                        busy<=1'b1;
+                        //busy<=1'b1;
                         if(counter == '0)
                             begin
                                 wave<=1'b1;
@@ -102,12 +101,12 @@ module normal_back #(parameter N=4)(
                     pulse:
                         begin
                             wave<=1'b1;
-                            busy<=1'b1;
+                            //busy<=1'b1;
                             if(counter_1==mem_1)
                                 begin
                                     counter_1<='0;
                                     wave<=1'b0;
-                                    busy<=1'b0;
+                                    //busy<=1'b0;
                                     state<=idle;
                                 end
                             else

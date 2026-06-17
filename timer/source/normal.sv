@@ -27,7 +27,7 @@ module normal #(parameter N=4)(
     input logic [N-1:0] data_in,
     input logic [3:0] count,
     output logic wave,
-    output logic busy
+    output logic pready_p
     );
     
     logic [N-1:0] mem;
@@ -37,12 +37,13 @@ module normal #(parameter N=4)(
     logic write_pending;
     typedef enum logic [1:0] {idle,counting,pulse} state_t;
     state_t state;
+    assign pready_p=1'b1;
     always_ff @ (posedge clk)
         begin
         if(rst)
             begin
             wave<=1'b0;
-            busy<=1'b0;
+            //busy<=1'b0;
             mem<='0;
             counter<='0;
             mem_1<='0;
@@ -68,17 +69,19 @@ module normal #(parameter N=4)(
                         begin
                         counter<='0;
                         counter_1<='0;
-                        busy<=1'b1;
+                        //busy<=1'b1;
                         write_pending<=1'b0;
                         state<=counting;
                         end
                    else
-                        busy<=1'b0;
+                    begin
+                    end
+                        //busy<=1'b0;
                 end
                 
                 counting:
                 begin
-                    busy<=1'b1;
+                    //busy<=1'b1;
                     if(counter==mem)
                         begin
                         counter<='0;
@@ -99,12 +102,12 @@ module normal #(parameter N=4)(
                 pulse:
                 begin
                     wave<=1'b1;
-                    busy<=1'b1;
+                    //busy<=1'b1;
                     if(counter_1==mem_1)
                         begin
                         counter_1<='0;
                         wave<=1'b0;
-                        busy<=1'b0;
+                        //busy<=1'b0;
                         state<=idle;
                         //mem<='0;
                         //mem_1<='0;
