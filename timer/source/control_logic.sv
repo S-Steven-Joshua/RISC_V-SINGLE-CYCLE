@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ps 
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -46,257 +46,56 @@ module control_logic(
                 2'b00: 
                 begin
                 //normal mode
-                    case(data_word[28:27])
-                        2'b00:
-                        begin
-                            if(data_word[26])
-                                begin
-                                    control_word<=6'b000_001;//normal mode forward direction 4 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b00;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b000_010;//normal mode reverse direction 4 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b00;
-                                end
-                        end
-                        2'b01:
-                        begin
-                                if(data_word[26])
-                                begin
-                                    control_word<=6'b000_001;//normal mode forward direction 8 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b01;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b000_010;//normal mode reverse direction 8 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b01;
-                                end
-                        end
-                        2'b10:
-                        begin
-                            if(data_word[26])
-                                begin
-                                    control_word<=6'b000_001;//normal mode forward direction 12 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b10;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b000_010;//normal mode reverse direction 12 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b10;
-                                end
-                        end
-                        2'b11:
-                        begin
-                                if(data_word[26])
-                                begin
-                                    control_word<=6'b000_001;//normal mode forward direction 16 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b11;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b000_010;//normal mode reverse direction 16 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b11;
-                                end
-                        end
-                    default:
+                if(data_word[26])
                     begin
-                            bit_16<='0;
-                            counter_value<='0;
-                            control_word<='0;
-                            //size_sel<='0;
+                        control_word<=6'b000_001;//normal mode forward direction 
+                        bit_16<=data_word[15:0];
+                        counter_value<=data_word[23:16];
                     end
-                    endcase
+                else
+                    begin
+                        control_word<=6'b000_010;//normal mode reverse direction 
+                        bit_16<=data_word[15:0];
+                        counter_value<=data_word[23:16];
+                    end
                 end
-
                 2'b01:
                 begin
-                    //auto mode
-                        case(data_word[28:27])
-                        2'b00: 
-                        begin
-                            if(data_word[26])
-                                begin
-                                    control_word<=6'b000_100;//auto mode forward direction 4 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b00;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b001_000;//auto mode reverse direction 4 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b00;
-                                end
-                        end
-                        2'b01:
-                        begin
-                                if(data_word[26])
-                                begin
-                                    control_word<=6'b000_100;//auto mode forward direction 8 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b01;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b001_000;//auto mode reverse direction 8 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b01;
-                                end
-                        end
-                        2'b10:
-                        begin
-                            if(data_word[26])
-                                begin
-                                    control_word<=6'b000_100;//auto mode forward direction 12 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b10;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b001_000;//auto mode reverse direction 12 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b10;
-                                end
-                        end
-                        2'b11:
-                        begin
-                                if(data_word[26])
-                                begin
-                                    control_word<=6'b000_100;//auto mode forward direction 16 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b11;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b001_000;//auto mode reverse direction 16 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b11;
-                                end
-                        end
-                    default:
+                    if(data_word[26])
                     begin
-                            bit_16<='0;
-                            counter_value<='0;
-                            control_word<='0;
-                            //size_sel<='0;
+                        control_word<=6'b000_100;//auto mode forward direction 
+                        bit_16<=data_word[15:0];
+                        counter_value<=data_word[23:16];
                     end
-                    endcase
+                else
+                    begin
+                        control_word<=6'b001_000;//auto mode reverse direction 
+                        bit_16<=data_word[15:0];
+                        counter_value<=data_word[23:16];
+                    end
                 end
-
                 2'b10:
                 begin
-                    //square
-                        case(data_word[28:27])
-                        2'b00: 
-                        begin
-                            if(data_word[26])
-                                begin
-                                    control_word<=6'b010_000;//normal mode forward direction 4 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b00;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b100_000;//normal mode reverse direction 4 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b00;
-                                end
-                        end
-                        2'b01:
-                        begin
-                                if(data_word[26])
-                                begin
-                                    control_word<=6'b010_000;//square mode forward direction 8 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b01;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b100_000;//square mode reverse direction 8 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b01;
-                                end
-                        end
-                        2'b10:
-                        begin
-                            if(data_word[26])
-                                begin
-                                    control_word<=6'b010_000;//square mode forward direction 12 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b10;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b100_000;//square mode reverse direction 12 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b10;
-                                end
-                        end
-                        2'b11:
-                        begin
-                                if(data_word[26])
-                                begin
-                                    control_word<=6'b010_000;//square mode forward direction 16 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b11;
-                                end
-                            else
-                                begin
-                                    control_word<=6'b100_000;//square mode reverse direction 16 bit
-                                    bit_16<=data_word[15:0];
-                                    counter_value<=data_word[23:16];
-                                    //size_sel<=2'b11;
-                                end
-                        end
-                    default:
+                    if(data_word[26])
                     begin
-                            bit_16<='0;
-                            counter_value<='0;
-                            control_word<='0;
-                            //size_sel<='0;
+                        control_word<=6'b010_000;//square mode forward direction 
+                        bit_16<=data_word[15:0];
+                        counter_value<=data_word[23:16];
                     end
-                    endcase
+                else
+                    begin
+                        control_word<=6'b100_000;//square mode reverse direction 
+                        bit_16<=data_word[15:0];
+                        counter_value<=data_word[23:16];
+                    end
                 end
                 default:
-                begin
-                    bit_16<='0;
-                    counter_value<='0;
-                    control_word<='0;
-                    //size_sel<='0;
-                end
+                    begin
+                        control_word<='0;//
+                        bit_16<='0;
+                        counter_value<='0;
+                    end
             endcase
-        end
-        end
-          
+            end
+        end     
 endmodule:control_logic
