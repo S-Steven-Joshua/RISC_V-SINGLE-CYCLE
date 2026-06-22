@@ -32,7 +32,7 @@ module control_logictb;
     logic [15:0] bit_16;
     logic [7:0] counter_value;
     logic [5:0] control_word;
-    logic [1:0] size_sel;
+    //logic [1:0] size_sel;
     
     control_logic control_logic1(
 //        .clk(clk),
@@ -45,16 +45,16 @@ module control_logictb;
 //        .bit_12(bit_12),
         .bit_16(bit_16),
         .counter_value(counter_value),
-        .control_word(control_word),
-        .size_sel(size_sel)
+        .control_word(control_word)
+        //.size_sel(size_sel)
     );
 //    initial begin
 //    clk=0;
 //    forever #5 clk=~clk;
 //    end
     initial begin
-    $monitor("Time=%d write=%b data_in=%h bit_16=%b counter_value=%b control_word=%b size_sel=%b",
-        $time,write,data_word,bit_16,counter_value,control_word,size_sel);
+    $monitor("Time=%d write=%b data_in=%h bit_16=%b counter_value=%b control_word=%b",
+        $time,write,data_word,bit_16,counter_value,control_word);
     end
     
     initial begin
