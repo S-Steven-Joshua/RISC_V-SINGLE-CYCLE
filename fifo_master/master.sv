@@ -23,10 +23,11 @@
 module master(
     input logic clk,
     input logic rst,
-    input logic apb_write,
-    input logic [31:0] paddr,
-    input logic [31:0] data_p,
+    //input logic apb_write,
+    input logic [63:0] fifo_data,
+    input logic fifo_empty,
     output logic [31:0] pr_data,
+    output logic r_en,
     output logic wave,
     output logic wave1,
     output logic wave2
@@ -41,10 +42,13 @@ module master(
     apb_master master_apb(
                           .clk(clk),
                           .prstn(~rst),
-                          .paddr(paddr),
-                          .data(data_p),
+//                          .paddr(fifo_data[63:32]),
+//                          .data(fifo_data[31:0]),
+                          .fifo_data(fifo_data),
+                          .fifo_empty(fifo_empty),
                           .pready(pready),
-                          .apb_write(apb_write),
+                          .r_en(r_en),
+                          //.apb_write(fifo_data[64]),
                           .psel(psel),
                           .penable(penable),
                           .pwrite(pwrite),
@@ -99,3 +103,4 @@ module master(
         endcase
     end                     
 endmodule:master
+

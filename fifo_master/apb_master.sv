@@ -22,17 +22,21 @@
 
 module apb_master(
     input  logic        clk,
+    input  logic        fifo_empty,
     input  logic        prstn,
-    input  logic [31:0] paddr,
-    input  logic [31:0] data,    // CPU data
+//    input  logic [31:0] paddr,
+//    input  logic [31:0] data,    // CPU data
+    input logic  [63:0] fifo_data,
     input  logic        pready,  // Input from slave
-    input  logic        apb_write,//from the bridge
+    //input  logic        apb_write,//from the bridge
     output logic  [1:0] psel,
     output logic        penable,
     output logic        pwrite,
     output logic [31:0] pwdata,
-    output logic        trans
+    output logic        trans,
+    output logic        r_en
 );
+
     typedef enum logic [1:0] {idle, setup, access} state_t;
     state_t state;
     //uart -4000_0000 to 4000_0008 01
@@ -46,37 +50,49 @@ module apb_master(
             pwdata  <= 32'b0;
             trans   <= 1'b0;
             state   <= idle;
+            r_en    <= 1'b0;
+
         end else begin
+
             case(state)
                 idle: begin
+                    r_en<=1'b0;
                     penable <= 1'b0;
+                    if(!fifo_empty)
+                        begin
+                        r_en<=1'b1;
+                        trans  <= 1'b1;
+                        pwdata <= fifo_data[31:0];
+                        pwrite <= 1'b1;
+
                     // Check if CPU is currently targeting the peripheral
-                    if((paddr >= 32'h4000_0000) && (paddr < 32'h4000_0008) && apb_write) 
+                    if((fifo_data[63:32] >= 32'h4000_0000) && (fifo_data[63:32] < 32'h4000_0008)) 
                     begin
                         psel   <= 2'b01;
-                        trans  <= 1'b1;
-                        pwdata <= data;
-                        pwrite <= 1'b1;
                         state  <= setup;
                     end 
-                    else if((paddr >= 32'h4000_0008) && (paddr < 32'h4000_000C) && apb_write)//pwm
+                    else if((fifo_data[63:32] >= 32'h4000_0008) && (fifo_data[63:32]< 32'h4000_000C))//pwm
                     begin
                         psel   <= 2'b10;
-                        trans  <= 1'b1;
-                        pwdata <= data;
-                        pwrite <= 1'b1;
                         state  <= setup;
                     end 
-                    else if((paddr >= 32'h4000_000C) && (paddr < 32'h4000_0014) && apb_write)//timer
+                    else if((fifo_data[63:32] >= 32'h4000_000C) && (fifo_data[63:32] < 32'h4000_0014))//timer
                     begin
                         psel   <= 2'b11;
-                        trans  <= 1'b1;
-                        pwdata <= data;
-                        pwrite <= 1'b1;
                         state  <= setup;
+                    end
+                    else
+                        begin
+                        r_en<=1'b0;
+                        pwrite <= 1'b0;
+                        psel   <= '0;
+                        trans  <= 1'b0;
+                        state  <= idle;
+                        end
                     end
                     else 
                     begin
+                        pwrite <= 1'b0;
                         psel   <= '0;
                         trans  <= 1'b0;
                         state  <= idle;
@@ -84,11 +100,13 @@ module apb_master(
                 end
                 
                 setup: begin
+                    r_en    <= 1'b0;
                     penable <= 1'b1;
                     state   <= access;
                 end
                 
                 access: begin
+                    r_en    <=1'b0;
                     //penable<=1'b1;
                     if(pready) begin
                         // Transaction complete! Cleanly shut down the bus
@@ -108,4 +126,3 @@ module apb_master(
         end
     end
 endmodule: apb_master
-
